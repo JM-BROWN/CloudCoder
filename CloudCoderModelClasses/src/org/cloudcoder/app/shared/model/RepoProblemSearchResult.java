@@ -1,6 +1,7 @@
 // CloudCoder - a web-based pedagogical programming environment
 // Copyright (C) 2011-2012, Jaime Spacco <jspacco@knox.edu>
 // Copyright (C) 2011-2012, David H. Hovemeyer <david.hovemeyer@gmail.com>
+// Copyright (C) 2013, York College of Pennsylvania
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published by
@@ -32,6 +33,7 @@ public class RepoProblemSearchResult {
 	
 	private RepoProblem repoProblem;
 	private List<String> matchedTagList;
+	private int matchedTagCount = 0;
 	
 	public RepoProblemSearchResult() {
 		matchedTagList = new ArrayList<String>();
@@ -47,6 +49,11 @@ public class RepoProblemSearchResult {
 
 	public void addMatchedTag(String matchedTag) {
 		matchedTagList.add(matchedTag);
+		matchedTagCount++;
+	}
+	
+	public int getNumMatchedTags() {
+		return matchedTagCount;		
 	}
 	
 	public List<String> getMatchedTagList() {

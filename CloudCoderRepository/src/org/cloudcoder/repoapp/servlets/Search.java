@@ -1,6 +1,7 @@
 // CloudCoder - a web-based pedagogical programming environment
 // Copyright (C) 2011-2012, Jaime Spacco <jspacco@knox.edu>
 // Copyright (C) 2011-2012, David H. Hovemeyer <david.hovemeyer@gmail.com>
+// Copyright (C) 2013, York College of Pennsylvania
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published by
@@ -115,6 +116,18 @@ public class Search extends HttpServlet {
 		
 		List<RepoProblemSearchResult> resultList = Database.getInstance().searchRepositoryExercises(searchCriteria);
 		System.out.println("Found " + resultList.size() + " matching exercises");
+		//sort resultLIst by number of results. This allows he resulting list
+		//to be sorted by relevance
+		int in, out;
+		for(out = 1; out < resultList.size(); out++){
+			RepoProblemSearchResult temp = resultList.get(out);
+			in = out;
+			while(in > 0 && resultList.get(in - 1).getNumMatchedTags() >= temp.getNumMatchedTags()){
+				resultList.set(in - 1, resultList.get(in));
+				in--;
+			}
+			resultList.set(in, temp);
+		}
 		JSONArray result = new JSONArray();
 		for (RepoProblemSearchResult searchResult : resultList) {
 			result.add(JSONConversion.convertRepoProblemSearchResultToJSON(searchResult));
